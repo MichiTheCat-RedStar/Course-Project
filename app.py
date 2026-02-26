@@ -14,7 +14,7 @@ with col1:
     **О нас**  
     Мы предлагаем широкий ассортимент лекарств, медицинских изделий и товаров для здоровья.
     \n**Адрес:** г. Ростов, ул. Любая, д. 42
-    \n**Телефон:** +8 800 555 35 35  
+    \n**Телефон:** 8 800 555 35 35  
     \n**Часы работы:** Круглосуточно
     ''') # Не смотря на то, что это многострочная строка, всё равно без \n разметка билась, вероятно это особенности работы streamlit с markdown
 with col2:
@@ -30,15 +30,24 @@ if submitted:
     if not name or not email or not phone:
         st.error('Все поля обязательны для заполнения!')
     else:
-        st.success('Спасибо! Вы зарегистрированы.')
-        if os.path.exists('data/users.json'): # Чтение data/users.json
-            with open('data/users.json', 'r', encoding='utf-8') as f:
-                try: data = json.load(f)
-                except json.JSONDecodeError: data = []
-        else: data = []
-        data.append({
-                "name": name,
-                "email": email,
-                "phone": phone})
-        with open('data/users.json', 'w', encoding='utf-8') as f: # Сохранение нового пользователя для рассылки в data/users.json
-            json.dump(data, f, ensure_ascii=False, indent=4)
+        if not ('@' in list(email)): # Валидатор
+            st.error('В Email должна быть указана почта!')
+        elif len(phone) < 11 or len(phone) > 13:
+            st.error('В телефоне должна быть указано от 11 до 13 цифр!')
+        elif len(name) > 32:
+            st.error('Имя не должно быть длиннее 32 символов!')
+        elif len(email) > 32:
+            st.error('Почта не должна быть длиннее 32 символов!')
+        else:
+            if os.path.exists('data/users.json'): # Чтение data/users.json
+                with open('data/users.json', 'r', encoding='utf-8') as f:
+                    try: data = json.load(f)
+                    except json.JSONDecodeError: data = []
+            else: data = []
+            data.append({
+                    "name": name,
+                    "email": email,
+                    "phone": phone})
+            with open('data/users.json', 'w', encoding='utf-8') as f: # Сохранение нового пользователя для рассылки в data/users.json
+                json.dump(data, f, ensure_ascii=False, indent=4)
+            st.success('Спасибо! Вы зарегистрированы.')
