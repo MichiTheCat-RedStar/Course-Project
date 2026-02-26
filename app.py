@@ -1,4 +1,6 @@
 import streamlit as st
+import json
+import os
 
 st.set_page_config(page_title='Аптека «Здоровье»', layout='centered')
 
@@ -23,6 +25,20 @@ with st.form('registration_form'):
     submitted = st.form_submit_button('Зарегистрироваться')
 if submitted:
     if not name or not email or not phone:
-        st.error('Все поля обязательны для заполнения')
+        st.error('Все поля обязательны для заполнения!')
     else:
         st.success('Спасибо! Вы зарегистрированы.')
+        if os.path.exists('data/users.json'): # Чтение data/users.json
+            with open('data/users.json', 'r', encoding='utf-8') as f:
+                try: data = json.load(f)
+                except json.JSONDecodeError: data = []
+        else: data = []
+    data.append(
+        {
+            "name": name,
+            "email": email,
+            "phone": phone
+        }
+    )
+    with open('data/users.json', 'w', encoding='utf-8') as f: # Сохранение нового пользователя для рассылки в data/users.json
+        json.dump(data, f, ensure_ascii=False, indent=4)
