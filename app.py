@@ -4,6 +4,7 @@ import os
 
 st.set_page_config(page_title='Аптека «Здоровье»', page_icon="💊", layout='centered')
 os.makedirs("data", exist_ok=True)
+PASSWORD = 'qwerty' # макетная часть для отображения информации разработчика, показывает как мог бы выглядить пароль на настоящем сайте
 
 # Основная часть
 menu = st.sidebar.radio('Страницы', ['Макет', 'О проекте'])
@@ -69,22 +70,30 @@ elif menu == 'О проекте': # О проекте
                 
         - **Репозиторий:** [Course-Project](https://github.com/MichiTheCat-RedStar/Course-Project)
                 
-        ---   
-        ## информация для разработчика:
-        
+        ---
         ''')
-    if os.path.exists('data/users.json'):
-        with open('data/users.json', 'r', encoding='utf-8') as f:
-            try: data = json.load(f)
-            except json.JSONDecodeError: data = []
-    else: data = []
-    st.markdown(f'''
-        ### `users.json`
-        python:
-        ```python
-        {data}
-        ```
+    with st.form('admin_password'):
+        password = st.text_input('Пароль')
+        submitted = st.form_submit_button('Войти')
+    if submitted:
+        if password == PASSWORD:
+            st.success('Пароль верный.')
+            if os.path.exists('data/users.json'):
+                with open('data/users.json', 'r', encoding='utf-8') as f:
+                    try: data = json.load(f)
+                    except json.JSONDecodeError: data = []
+            else: data = []
+            st.markdown(f'''
+                ## информация для разработчика:
+                        
+                ### `users.json`
+                python:
+                ```python
+                {data}
+                ```
 
-        таблица:
-        ''')
-    st.dataframe(data)
+                таблица:
+                ''')
+            st.dataframe(data)
+        else:
+            st.error('Неверный пароль!')
