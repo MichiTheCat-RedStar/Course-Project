@@ -3,6 +3,7 @@ import json
 import os
 
 st.set_page_config(page_title='Аптека «Здоровье»', layout='centered')
+os.makedirs("data", exist_ok=True)
 
 # Основная часть
 st.title('💊 Аптека «Здоровье»')
@@ -16,6 +17,8 @@ with col1:
     \n**Телефон:** +8 800 555 35 35  
     \n**Часы работы:** Круглосуточно
     ''') # Не смотря на то, что это многострочная строка, всё равно без \n разметка билась, вероятно это особенности работы streamlit с markdown
+with col2:
+    st.image("data/img/1.jpg", caption="Наша аптека")
 st.markdown('---')
 st.header('Регистрация для получения скидок')
 with st.form('registration_form'):
@@ -33,12 +36,9 @@ if submitted:
                 try: data = json.load(f)
                 except json.JSONDecodeError: data = []
         else: data = []
-    data.append(
-        {
-            "name": name,
-            "email": email,
-            "phone": phone
-        }
-    )
-    with open('data/users.json', 'w', encoding='utf-8') as f: # Сохранение нового пользователя для рассылки в data/users.json
-        json.dump(data, f, ensure_ascii=False, indent=4)
+        data.append({
+                "name": name,
+                "email": email,
+                "phone": phone})
+        with open('data/users.json', 'w', encoding='utf-8') as f: # Сохранение нового пользователя для рассылки в data/users.json
+            json.dump(data, f, ensure_ascii=False, indent=4)
