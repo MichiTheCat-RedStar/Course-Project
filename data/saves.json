@@ -1,0 +1,14 @@
+{
+    "users": [
+        {
+            "name": "администратор",
+            "password": "qwerty",
+            "role": "admin"
+        },
+        {
+            "name": "пользователь",
+            "password": "",
+            "role": "user" 
+        }
+    ]
+}
