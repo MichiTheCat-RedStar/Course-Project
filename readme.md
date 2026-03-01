@@ -36,6 +36,8 @@
 - **GitHub**: [MichiTheCat-RedStar](https://github.com/MichiTheCat-RedStar)
 - **Itch.io**: [michi-the-cat](https://michi-the-cat.itch.io)
 
+---
+
 ### Условности
 
 - Так как это макет сайта от человека без опыта в HTML и тем более знания CSS и JavaScript - сайт выполнен с уклоном в python и библиотеки для него

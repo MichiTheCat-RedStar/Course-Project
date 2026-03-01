@@ -34,7 +34,7 @@ if menu == 'Макет': # Макет
         if not name or not email or not phone:
             st.error('Все поля обязательны для заполнения!')
         else:
-            if not ('@' in list(email)): # Валидатор
+            if not '@' in email: # Валидатор
                 st.error('В Email должна быть указана почта!')
             elif len(phone) < 11 or len(phone) > 13:
                 st.error('В телефоне должна быть указано от 11 до 13 цифр!')
