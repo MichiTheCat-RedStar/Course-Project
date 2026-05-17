@@ -14,20 +14,24 @@ if menu == 'Макет': # Макет
     col1, col2 = st.columns(2)
     with col1:
         st.markdown('''
-        **О нас**  
+        ##### О нас:
+                    
         Мы предлагаем широкий ассортимент лекарств, медицинских изделий и товаров для здоровья.
-        \n**Адрес:** г. Ростов, ул. Любая, д. 42
-        \n**Телефон:** 8 800 555 35 35  
-        \n**Часы работы:** Круглосуточно
+                    
+        **Адрес:** г. Ростов, ул. Любая, д. 42
+        
+        **Телефон:** 8 800 555 35 35  
+        
+        **Часы работы:** Круглосуточно
         ''')
     with col2:
         st.image('data/img/1.jpg', caption='Наша аптека')
     st.markdown('---')
     st.header('Регистрация для получения скидок')
     with st.form('registration_form'):
-        name = st.text_input('Имя', placeholder='Иванов Иван Иванович')
-        email = st.text_input('Email', placeholder='example@proton.mail')
-        phone = st.text_input('Телефон', placeholder='+7(***)*******')
+        name = st.text_input('Имя*', placeholder='Иванов Иван Иванович')
+        email = st.text_input('Email*', placeholder='example@proton.mail')
+        phone = st.text_input('Телефон*', placeholder='+7(***)*******')
         submitted = st.form_submit_button('Зарегистрироваться')
     if submitted:
         if not name or not email or not phone:
@@ -71,28 +75,21 @@ elif menu == 'О проекте': # О проекте
                 
         ---
         ''')
-    with st.form('admin_password'):
-        password = st.text_input('Пароль')
-        submitted = st.form_submit_button('Войти')
-    if submitted:
-        if password == 'qwerty':
-            st.success('Пароль верный.')
-            if os.path.exists('data/users.json'):
-                with open('data/users.json', 'r', encoding='utf-8') as f:
-                    try: data = json.load(f)
-                    except json.JSONDecodeError: data = []
-            else: data = []
-            st.markdown(f'''
-                ## информация для разработчика:
-                        
-                ### `users.json`
-                python:
-                ```python
-                {data}
-                ```
+    
+    if os.path.exists('data/users.json'):
+        with open('data/users.json', 'r', encoding='utf-8') as f:
+            try: data = json.load(f)
+            except json.JSONDecodeError: data = []
+    else: data = []
+    st.markdown(f'''
+        ## информация для разработчика:
+            
+        ### `users.json`
+        python:
+        ```python
+        {data}
+        ```
 
-                таблица:
-                ''')
-            st.dataframe(data)
-        else:
-            st.error('Неверный пароль!')
+        таблица:
+        ''')
+    st.dataframe(data)
